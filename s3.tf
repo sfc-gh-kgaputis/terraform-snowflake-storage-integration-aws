@@ -1,14 +1,14 @@
-resource "aws_s3_bucket" "geff_bucket" {
-  bucket = local.s3_bucket_name
-}
+#resource "aws_s3_bucket" "geff_bucket" {
+#  bucket = local.s3_bucket_name
+#}
 
-resource "aws_s3_bucket_ownership_controls" "geff_bucket_ownership_controls" {
-  bucket = aws_s3_bucket.geff_bucket.id
-
-  rule {
-    object_ownership = var.bucket_object_ownership_settings
-  }
-}
+#resource "aws_s3_bucket_ownership_controls" "geff_bucket_ownership_controls" {
+#  bucket = aws_s3_bucket.geff_bucket.id
+#
+#  rule {
+#    object_ownership = var.bucket_object_ownership_settings
+#  }
+#}
 
 # resource "aws_s3_bucket_acl" "geff_bucket_acl" {
 #   bucket = aws_s3_bucket.geff_bucket.id
@@ -17,10 +17,10 @@ resource "aws_s3_bucket_ownership_controls" "geff_bucket_ownership_controls" {
 #   depends_on = [aws_s3_bucket_ownership_controls.geff_bucket_ownership_controls]
 # }
 
-resource "aws_s3_object" "geff_meta_folder" {
-  bucket = aws_s3_bucket.geff_bucket.id
-  key    = "meta/"
-}
+#resource "aws_s3_object" "geff_meta_folder" {
+#  bucket = aws_s3_bucket.geff_bucket.id
+#  key    = "meta/"
+#}
 
 resource "random_string" "random" {
   length  = 5
@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "geff_s3_sns_topic_policy_doc" {
       test     = "ArnLike"
       variable = "aws:SourceArn"
       values = concat(
-        [aws_s3_bucket.geff_bucket.arn],
+#        [aws_s3_bucket.geff_bucket.arn],
         var.data_bucket_arns
       )
     }
@@ -73,16 +73,16 @@ resource "aws_sns_topic_policy" "geff_s3_sns_topic_policy" {
   policy = data.aws_iam_policy_document.geff_s3_sns_topic_policy_doc.json
 }
 
-resource "aws_s3_bucket_notification" "geff_s3_bucket_notification" {
-  bucket = aws_s3_bucket.geff_bucket.id
-
-  topic {
-    topic_arn = aws_sns_topic.geff_bucket_sns.arn
-    events    = ["s3:ObjectCreated:*"]
-  }
-
-  depends_on = [aws_sns_topic_policy.geff_s3_sns_topic_policy]
-}
+#resource "aws_s3_bucket_notification" "geff_s3_bucket_notification" {
+#  bucket = aws_s3_bucket.geff_bucket.id
+#
+#  topic {
+#    topic_arn = aws_sns_topic.geff_bucket_sns.arn
+#    events    = ["s3:ObjectCreated:*"]
+#  }
+#
+#  depends_on = [aws_sns_topic_policy.geff_s3_sns_topic_policy]
+#}
 
 resource "aws_s3_bucket_notification" "geff_s3_pipline_bucket_notification" {
   for_each = toset(local.pipeline_bucket_ids)

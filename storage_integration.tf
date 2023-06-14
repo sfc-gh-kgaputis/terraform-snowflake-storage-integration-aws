@@ -12,7 +12,7 @@ resource "snowflake_storage_integration" "this" {
   type    = "EXTERNAL_STAGE"
   enabled = true
   storage_allowed_locations = concat(
-    ["${local.storage_provider}://${aws_s3_bucket.geff_bucket.id}/"],
+#    ["${local.storage_provider}://${aws_s3_bucket.geff_bucket.id}/"],
     [for bucket_id in local.pipeline_bucket_ids : "s3://${bucket_id}/"]
   )
   storage_provider     = local.storage_provider
