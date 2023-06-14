@@ -10,12 +10,12 @@ resource "aws_s3_bucket_ownership_controls" "geff_bucket_ownership_controls" {
   }
 }
 
-resource "aws_s3_bucket_acl" "geff_bucket_acl" {
-  bucket = aws_s3_bucket.geff_bucket.id
-  acl    = "private"
+# resource "aws_s3_bucket_acl" "geff_bucket_acl" {
+#   bucket = aws_s3_bucket.geff_bucket.id
+#   acl    = "private"
 
-  depends_on = [aws_s3_bucket_ownership_controls.geff_bucket_ownership_controls]
-}
+#   depends_on = [aws_s3_bucket_ownership_controls.geff_bucket_ownership_controls]
+# }
 
 resource "aws_s3_object" "geff_meta_folder" {
   bucket = aws_s3_bucket.geff_bucket.id
